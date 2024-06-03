@@ -1,20 +1,34 @@
 const display = document.querySelector("#display");
 const buttons = document.querySelectorAll("button");
 
+let lastOperation = '';
+let lastOperand = '';
+
 buttons.forEach((item) => {
   item.onclick = () => {
-    if (item.id == "clear") {
+    if (item.id === "clear") {
       display.innerText = "";
-    } else if (item.id == "backspace") {
+      lastOperation = '';
+      lastOperand = '';
+    } else if (item.id === "backspace") {
       let string = display.innerText.toString();
       display.innerText = string.substr(0, string.length - 1);
-    } else if (display.innerText != "" && item.id == "equal") {
-      display.innerText = eval(display.innerText);
-    } else if (display.innerText == "" && item.id == "equal") {
-      display.innerText = "Empty!";
-      setTimeout(() => (display.innerText = ""), 2000);
+    } else if (item.id === "equal") {
+      if (display.innerText !== "") {
+        display.innerText = "I love you!";
+      } else {
+        display.innerText = "Empty!";
+        setTimeout(() => (display.innerText = ""), 2000);
+      }
     } else {
+      // Append the clicked button's value to the display
       display.innerText += item.id;
+
+      // Reset the stored last operation and operand when a number or operator is pressed
+      if (['+', '-', '*', '/'].includes(item.id)) {
+        lastOperation = '';
+        lastOperand = '';
+      }
     }
   };
 });
